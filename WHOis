@@ -1,0 +1,27 @@
+#WHOIS Lookup
+
+#querying publicly accessible databases
+
+import socket
+
+def whois(domain: str):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #sock 1, sock 2(TCP)
+    sock.connect(("whois.iana.org", 43))
+    sock.send(f"{domain}\r\n".encode())
+    response = sock.recv(4096).decode()
+    sock.close()
+    return response
+
+def prompt():
+    print("Enter -1, end or break to stop program")
+    while(True):
+        ask = input("Enter domain name to Search: 'www.webname.com'")
+        if ask == "-1" or ask == "end" or ask == "break":
+            return
+        response = whois(ask)
+        print(response)
+
+def run_all():
+    prompt()
+
+run_all()
